@@ -8,10 +8,34 @@ import {
 
 import GlobalStyles from "./GlobalStyles";
 import ArtistRoute from "../ArtistRoute";
+import {
+  receiveAccessToken,
+  receiveAccessTokenError,
+  requestAccessToken,
+} from "../../actions";
+
+import { useDispatch } from "react-redux";
 
 const DEFAULT_ARTIST_ID = "5INjqkS1o8h1imAzPqGZBb";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(requestAccessToken());
+
+    fetch("/spotify_access_token")
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        dispatch(receiveAccessToken(json.access_token));
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(receiveAccessTokenError());
+      });
+  }, []);
+
   return (
     <Router>
       <GlobalStyles />
