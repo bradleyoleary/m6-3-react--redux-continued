@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
    border: 0;
    vertical-align: baseline;
    font-family: 'Montserrat', sans-serif;
+   background-color: #0b0f14;
  }
 
 
