@@ -3,5 +3,5 @@ export const COLORS = {
   secondary: "#3354FF",
   background: "#0B0F14",
   grey: "#797F86",
-  letters: "#FFFFFF",
+  white: "#FFFFFF",
 };

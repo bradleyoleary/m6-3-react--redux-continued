@@ -1,4 +1,6 @@
+import { CircularProgress } from "@material-ui/core";
 import React from "react";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -7,6 +9,9 @@ import {
   requestArtistProfileError,
 } from "../actions";
 import { fetchArtistProfile } from "../helpers/api-helpers";
+import { COLORS } from "./constants";
+import Header from "./Header";
+import Tags from "./tags";
 
 const ArtistRoute = () => {
   const accessToken = useSelector((state) => state.auth.token);
@@ -33,11 +38,39 @@ const ArtistRoute = () => {
     }
   }, [accessToken, id]);
 
-  if (artistStatus.status === "loading" || !artist) {
-    return <h1>Loading</h1>;
+  if (!artist || artistStatus.status === "loading") {
+    return (
+      <Loader>
+        <CircularProgress size={100} />
+      </Loader>
+    );
   }
 
-  return <p>Artist</p>;
+  return (
+    <Wrapper>
+      <Header
+        imgSrc={artist.profile.images[0].url}
+        name={artist.profile.name}
+        followerTotal={artist.profile.followers.total}
+      />
+      <Tags genres={artist.profile.genres} />
+    </Wrapper>
+  );
 };
+
+const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+`;
 
 export default ArtistRoute;
